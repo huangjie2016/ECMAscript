@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>this</title>
+</head>
+<body>
+  <script>
+    /**
+     * 1：如果一个函数中有this，但是它没有被上一级的对象所调用，那么this指向的就是window
+     * 2: 如果一个函数中有this，这个函数有被上一级的对象所调用，那么this指向的就是上一级的对象。
+     * 3：如果一个函数中有this，这个函数中包含多个对象，尽管这个函数是被最外层的对象所调用，this指向的也只是它上一级的对象
+    **/
+
+    function a() {
+      let user = 'hj';
+      console.log(this.user);   // undefined
+      console.log(this);        // window
+    }
+    a();  // this指向window; == window.a()
+
+
+    const a2 = {
+      user : 'a2',
+      b1 : function() {
+        let user = 'b1';
+        console.log(this.user);   // 'a2'
+      }
+    };
+    a2.b1();  // this指向上一级
+
+    const obj = {
+      c: 10,
+      b: {
+        c: 12,
+        fn: function() {
+          return this.c
+        }
+      }
+    };
+
+    console.log(obj.b.fn());  // 12, this指向上一级
+
+    const obj2 = obj.b.fn;
+    console.log(obj2());      // undefined, 这里调用对象是obj2, obj2的上一级是window
+
+    function Fn() {
+      this.name = 'hj';
+      this.age = 30;
+    }
+
+    const d = new Fn();
+    const e = new Fn();
+    console.log(d.name);    // 'hj', new改变了this指向到d
+    console.log(e.age);     // 30, new改变了this指向到e
+    d.age = 40;
+    console.log(d.age + ', ' + e.age);
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
