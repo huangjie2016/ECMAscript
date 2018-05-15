@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>object</title>
+</head>
+<body>
+<script>
+  // 构造函数 => 继承对象 => Object.prototype => null
+  // hasOwnProperty()方法判断对象中的属性是否对象本身的,true表示对象本身就有的,false表示对象本身并不具有该属性
+  // propertyIsEnumerable()方法判断对象的属性是否可枚举，自身的属性返回true，原型链上的返回false
+  // Object.create()方法也可以创建对象
+  // for in 会把原型上的属性也遍历出来
+  function Foo() {}
+  Foo.prototype.z = 3;
+  let obj = new Foo();
+  obj.x = 1;
+  obj.y = 2;
+  delete obj.x;
+  console.log(obj.x);    // undefined
+  console.log(obj.z);    // 3
+  console.log(obj.hasOwnProperty('z'));     // false
+  console.log(obj.propertyIsEnumerable('z'));   // false
+  Object.defineProperty(obj, 'd', {enumerable: true, value: 5});
+  console.log(obj.hasOwnProperty('d'));     // true
+  console.log(obj.propertyIsEnumerable('d'));   // true
+  for(let i in obj){
+    console.log(i);     // y d z
+  }
+  for(let i in obj){
+    if(obj.hasOwnProperty(i)){
+      console.log(i);   // y d
+    }
+  }
+  obj.z = 4;
+  console.log(obj.hasOwnProperty('z'));     // true
+  console.log(obj.propertyIsEnumerable('z'));   // true
+
+
+  const o = Object.create(Foo);
+  o.z = 1;
+  console.log(o.z);                     // 1
+  console.log(o.hasOwnProperty('z'));     // true
+
+  console.log(obj.toString());    // ok
+  obj = null;
+  console.log(obj.toString());    // error  toString of null
+</script>
+</body>
+</html>

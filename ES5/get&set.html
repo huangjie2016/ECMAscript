@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>get&set</title>
+</head>
+<body>
+  <script>
+    let obj = {
+      name: 'hj',
+      QQ: 449188650,
+      get age(){
+        return new Date().getFullYear() - 1988
+      },
+      set age(val){
+        console.log('Age can\'t be set to:' + val)
+      }
+    };
+    console.log(obj.age);   // 30
+    obj.age = 18;           // Age can't be set to:18
+    console.log(obj.age);   // 30
+
+    let obj2 = {
+      name: 'hj',
+      $age: null,
+      get age(){
+        if(this.$age === null){
+          return new Date().getFullYear() - 1988
+        }else{
+          return this.$age
+        }
+      },
+      set age(val){
+        val = +val;
+        if(!isNaN(val)){
+          this.$age = val;
+        }else{
+          console.log('this age is ' + val)
+        }
+      }
+    };
+    console.log(obj2.age);   // 30
+    obj2.age = 18;           // Age can't be set to:18
+    console.log(obj2.age);   // 18
+    obj2.age = 'years';
+    console.log(obj2.age);    // this age is NaN
+    console.log(obj2.age);   // 18
+
+
+    function Foo(){}
+    Object.defineProperty(Foo.prototype, 'num', {get: function(){return 1}});
+    const obj3 = new Foo();
+    console.log(obj3.num); // 1
+    obj3.num = 10;         // n brace
+    console.log(obj3.num); // 1  原型链上的值如果是get赋值的，继承对象不能直接修改
+    Object.defineProperty(obj3, 'num', {value: 10, configurable: true});
+    console.log(obj3.num); // 10  Object.defineProperty()指向实例化对象才能在实例化对象本身正确赋值
+
+    const Obj4 = {};
+    Object.defineProperty(Obj4, 'x', {value: 1}); //writable:false  configurable:false
+    const obj4 = Object.create(Obj4);
+    console.log(obj4.x);  // 1
+    obj4.x = 10;          // n brace
+    console.log(obj4.x);  // 1
+    Object.defineProperty(obj4, 'x', {writable: true, configurable: true, value: 10});
+    console.log(obj4.x);  // 10
+  </script>
+</body>
+</html>

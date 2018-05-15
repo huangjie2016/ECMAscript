@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Object tag</title>
+</head>
+<body>
+<script>
+  // Object.defineProperty()方法可以改变对象上的标签属性，默认都为false
+  // writable:表示是否可修改
+  // configurable:表示是否可删除
+  // enumerable:表示是否可枚举(遍历)
+  function Foo(){}
+  Object.defineProperty(Foo.prototype, 'a', {value: 10});
+  const obj = new Foo();
+  console.log(obj.a); // 10
+  obj.a = 5;
+  console.log(obj.a); // 5
+  console.log(obj.hasOwnProperty('a')); // false
+  console.log(obj.propertyIsEnumerable('a')); // false
+  Object.defineProperty(obj, 'a', {value: 3, writable: true, enumerable: true, configurable: true});
+  console.log(obj.a);   // 3
+  obj.a = 6;
+  console.log(obj.a);   // 6
+  console.log(obj.hasOwnProperty('a'));   // true
+  console.log(obj.propertyIsEnumerable('a')); // true
+  delete obj.a;
+  console.log(obj.a); // 10
+</script>
+</body>
+</html>
