@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>call&apply</title>
+</head>
+<body>
+<script>
+  // call&apply相同点：
+  // 1.都可以改变this指向,指向为第一个参数
+  // 2.能调用另外一个对象的方法，继承另外一个对象的属性.
+  // call&apply不同点：
+  // 1. 参数不同，通常apply第二个参数为arguments对象，所以不需要第三个参数。而call必须按顺序依次添加参数才能正确使用
+
+  function Person(name, age, sex){
+    this.name = name;
+    this.age = age;
+    this.sex = sex;
+  }
+  function Student(name, age, sex){
+    Person.apply(this, arguments);
+  }
+  function CallStudent(name, age, sex){
+    Person.call(this, name, age, sex);
+  }
+  function CallStudent2(name, age, sex){
+    Person.call(this, sex, age, name);
+  }
+
+  const aa = new Student('aa', 18, 'virile');
+  const bb = new CallStudent('bb', 19, 'female');
+  const cc = new CallStudent2('cc', 18, 'female');
+  console.log(aa);  // {name: "aa", age: 18, sex: "virile"}
+  console.log(bb);  // {name: "bb", age: 19, sex: "female"}
+  console.log(cc);  // {name: "female", age: 18, sex: "cc"}
+</script>
+</body>
+</html>
