@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OOP</title>
+</head>
+<body>
+<script>
+  // OOP思想提高了程序的重用性、灵活性和扩展性
+  // 四大功能：继承、封装、多态、抽象
+  function Person(name, age){
+    this.name = name;
+    this.age = age;
+  }
+  Person.prototype.hi = function(){
+    console.log(this.name, this.age);
+  };
+  Person.prototype.lags = 2;
+
+  function Student(name, age, className){
+    Person.call(this, name, age);
+    this.className = className;
+  }
+  //Student.prototype = new Person(); // 如果要这样写这里需要传参数，问题是还没有实例化参数是什么都不确定，所以用下面的Object.create
+  Student.prototype = Object.create(Person.prototype);
+  Student.prototype.constructor = Student;    // 防止原型链上的同名属性或方法覆盖
+
+  Student.prototype.hi = function(){
+    console.log('Student: ' + this.name, this.age, this.className)
+  };
+  Student.prototype.num = 3;
+
+  const obj = new Student('hj', 30, '三年，二班');
+  obj.hi();
+  console.log(obj.num);
+  console.log(obj.hasOwnProperty('num')); // false 是原型链上继承的 不是自身的
+  console.log(obj instanceof Student);    // true
+  console.log(obj instanceof Object);    // true
+  // instanceof:左侧是否指向右侧的prototype，意思就是是否在右侧的原型链上,
+  // obj.prototype => class.prototype => Object.prototype => null
+</script>
+</body>
+</html>

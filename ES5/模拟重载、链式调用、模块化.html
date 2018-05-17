@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OOP</title>
+</head>
+<body>
+<script>
+  // 模拟重载
+  function Person(){
+    const args = arguments;
+    if(typeof args[0] === 'object' && args[0]){
+      if(args[0].name){
+        this.name = args[0].name;
+      }
+      if(args[0].age){
+        this.age = args[0].age;
+      }
+    }else{
+      if(args[0]){
+        this.name = args[0]
+      }
+      if(args[1]){
+        this.age = args[1]
+      }
+    }
+  }
+  Person.prototype.toString = function(){
+    console.log('name = ' + this.name + ', age = ' + this.age) ;
+  };
+  const obj = new Person('hj', 30);
+  obj.toString();
+  const obj2 = new Person({name: 'OOP', age: 20});
+  obj2.toString();
+
+  // 链式调用
+  function ClassManager(){}
+  ClassManager.prototype.addClass = function(str){
+    console.log('addClass: ' + str);
+    return this;
+  };
+  ClassManager.prototype.removeClass = function(str){
+    console.log('removeClass: ' + str);
+    return this;
+  };
+  const classList = new ClassManager();
+  classList.addClass('ClassA').removeClass('ClassB').addClass('ClassC');
+
+  // 模块化
+  const moduleA = function(){
+    const prop = 1;
+    function func(){}
+    return {
+      prop: prop,
+      func: func
+    }
+  };
+
+  const moduleB = function(){
+    const prop = 2;
+    function func(){}
+    this.func = func;
+    this.prop = prop;
+  }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
